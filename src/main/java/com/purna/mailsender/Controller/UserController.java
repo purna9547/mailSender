@@ -47,11 +47,20 @@ public class UserController {
         userService.registerNewUser(user);
         Mail mail= new Mail(
             user.getEmail(),
-            "Welcome to MAILSENDER",
-                "Dear, "+user.getUserName()+"\nThank you for registration here" +
-                        "\nYour username is: "+user.getUserName()+"\nLogin using this user name"
+            "Welcome to MailSender",
+                "Dear " + user.getFullname() + ",<br><br>" +
+                        "Thank you for registering with MailSender.<br>" +
+                        "We are excited to have you on board.<br><br>" +
+                        "Your username is: <strong>" + user.getUserName() + "</strong><br>" +
+                        "Please use this username to log in.<br><br>" +
+                        "Best regards,<br>" +
+                        "The MailSender Team"
         );
-        mailService.sendRegistrationMail(mail);
+        try {
+            mailService.sendRegistrationMail(mail);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         return new ModelAndView(new RedirectView("/login"));
 
     }

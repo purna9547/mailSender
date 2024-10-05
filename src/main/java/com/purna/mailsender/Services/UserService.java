@@ -15,8 +15,9 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
     public User registerNewUser(User user) {
-        String name=user.getFullname().toLowerCase();
-        String fName=name.split(" ")[0];
+        String name=user.getFullname();
+        String sname=name.toLowerCase();
+        String fName=sname.split(" ")[0];
         Random random= new Random();
         int rand=random.nextInt(1000,10000);
         String userName=fName+rand;

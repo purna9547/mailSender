@@ -17,7 +17,7 @@ public class MailSenderService {
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
 
-        helper.setFrom("Teaminnovate.api@gmail.com","Purna");
+        helper.setFrom("Teaminnovate.api@gmail.com","MailSender");
         helper.setTo(mailSender.getRecipient());
         helper.setSubject(mailSender.getSubject());
         helper.setText(mailSender.getMessage(), true); // true indicates HTML content
