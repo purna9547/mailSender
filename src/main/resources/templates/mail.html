@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Sender</title>
+    <style>
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', Arial, sans-serif;
+            background: linear-gradient(135deg, #e63946, #457b9d);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            color: #fff;
+        }
+
+        .container {
+            backdrop-filter: blur(10px) saturate(180%);
+            -webkit-backdrop-filter: blur(10px) saturate(180%);
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            animation: fade-in 1s ease-out forwards;
+        }
+
+        h1 {
+            text-align: center;
+            color: #fff;
+            margin-bottom: 30px;
+            font-size: 28px;
+            font-weight: 600;
+        }
+
+        label {
+            display: block;
+            font-size: 14px;
+            color: #ddd;
+            margin-bottom: 5px;
+        }
+
+        input[type="email"],
+        input[type="text"],
+        textarea {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            color: #fff;
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        input[type="email"]:focus,
+        input[type="text"]:focus,
+        textarea:focus {
+            background: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 8px rgba(0, 255, 255, 0.5);
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background-color: #06d6a0;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        button:hover {
+            background-color: #05c290;
+            transform: scale(1.02);
+        }
+
+        button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 400%;
+            height: 400%;
+            background: rgba(255, 255, 255, 0.1);
+            transform: translate(-50%, -50%) rotate(45deg);
+            transition: all 0.75s;
+        }
+
+        button:hover::before {
+            width: 0;
+            height: 0;
+        }
+
+        /* Responsive design for mobile */
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+                max-width: 100%;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            input[type="email"],
+            input[type="text"],
+            textarea {
+                font-size: 12px;
+            }
+
+            button {
+                font-size: 14px;
+            }
+        }
+
+        /* Form fade-in animation */
+        @keyframes fade-in {
+            0% {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Glowing neon effect for input focus */
+        input[type="email"]:focus,
+        input[type="text"]:focus,
+        textarea:focus {
+            box-shadow: 0 0 15px rgba(3, 218, 198, 0.75);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Send an Email</h1>
+    <form th:action="@{/mail}" th:object="${newUser}" method="POST">
+        <label for="recipient">Recipient Email:</label>
+        <input  th:field="*{recipient}" type="email" id="recipient" name="recipient" required>
+
+        <label for="subject">Subject:</label>
+        <input th:field="*{subject}" type="text" id="subject" name="subject" required>
+
+        <label for="message">Message:</label>
+        <textarea th:field="*{message}" id="message" name="message" rows="6" required></textarea>
+
+        <button type="submit">Send Email</button>
+    </form>
+</div>
+
+</body>
+</html>
