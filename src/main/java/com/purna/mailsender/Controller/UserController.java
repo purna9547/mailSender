@@ -85,11 +85,22 @@ public class UserController {
     }
 
     @PostMapping("/mail")
-    public String sendEmail(@ModelAttribute MailSender mailSender){
-        MailSender mailSender1=new MailSender(
-            mailSender.getRecipient(),
-            mailSender.getSubject(),
-            mailSender.getMessage()
+    public String sendEmail(@ModelAttribute MailSender mailSender) {
+        String msg = "<div style='font-family: Arial, sans-serif; color: #333; max-width: 600px; margin: auto;'>"
+                + "<div style='background-color: #f7f7f7; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);'>"
+                + "<h2 style='color: #12A0DCFF; text-align: left;'> Subject: " + mailSender.getSubject() + "</h2>"
+                +"<hr style='border: 0; border-top: 3px solid #12A0DCFF; margin: 20px 0;'>"
+                + "<p style='font-size: 16px; line-height: 1.5;'>" + mailSender.getMessage() + "</p>"
+                + "<p style='font-size: 16px; line-height: 1.5; margin-top: 20px;'>Best regards,<br>The MailSender Team</p>"
+                + "<hr style='border: 0; border-top: 1px solid #ccc; margin: 20px 0;'>"
+                + "<p style='font-size: 12px; color: #777; text-align: center;'>If you did not expect this email, please ignore it.</p>"
+                + "</div>"
+                + "</div>";
+
+        MailSender mailSender1 = new MailSender(
+                mailSender.getRecipient(),
+                mailSender.getSubject(),
+                msg
         );
 
         try {
