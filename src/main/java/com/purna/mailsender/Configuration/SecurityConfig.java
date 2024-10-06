@@ -27,6 +27,8 @@ public class SecurityConfig {
                 .authorizeRequests()
                 .requestMatchers("/register").permitAll()
                 .requestMatchers("/").permitAll()
+                .requestMatchers("forget").permitAll()
+                .requestMatchers("terms").permitAll()
 //                .requestMatchers("/terms").permitAll()
                 .anyRequest().authenticated()
                 .and()

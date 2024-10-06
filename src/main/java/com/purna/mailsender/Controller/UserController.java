@@ -42,20 +42,29 @@ public class UserController {
 
     @PostMapping("/register")
     public ModelAndView getRegister(@ModelAttribute User user){
+
         Map<String, User> mp=new HashMap<>();
         mp.put("newUser", new User());
         userService.registerNewUser(user);
-        Mail mail= new Mail(
-            user.getEmail(),
-            "Welcome to MailSender",
-                "Dear " + user.getFullname() + ",<br><br>" +
-                        "Thank you for registering with MailSender.<br>" +
-                        "We are excited to have you on board.<br><br>" +
-                        "Your username is: <strong>" + user.getUserName() + "</strong><br>" +
-                        "Please use this username to log in.<br><br>" +
-                        "Best regards,<br>" +
-                        "The MailSender Team"
+        String msg = "<div style='font-family: Arial, sans-serif; color: #333; max-width: 600px; margin: auto;'>"
+                + "<div style='background-color: #f7f7f7; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);'>"
+                + "<h2 style='color: #12A0DCFF; text-align: center;'>Welcome, " + user.getFullname().split(" ")[0] + "!</h2>"
+                +"<hr style='border: 0; border-top: 3px solid #12A0DCFF; margin: 20px 0;'>"
+                + "<p style='font-size: 16px; color: #333;line-height: 1.5;'>Thank you for registering with MailSender. We are excited to have you on board.</p>"
+                + "<p style='font-size: 16px; line-height: 1.5;'>Your username is: <strong>" + user.getUserName() + "</strong></p>"
+                + "<p style='font-size: 16px; color: #333;line-height: 1.5;'>Please use this username to log in.</p>"
+                + "<p style='font-size: 16px; color: #333;line-height: 1.5; margin-top: 20px;'>Best regards,<br>The MailSender Team</p>"
+                + "<hr style='border: 0; border-top: 1px solid #ccc; margin: 20px 0;'>"
+                + "<p style='font-size: 12px; color: #333; text-align: center;'>If you did not register for this account, please ignore this email.</p>"
+                + "</div>"
+                + "</div>";
+
+        Mail mail = new Mail(
+                user.getEmail(),
+                "Welcome to MailSender",
+                msg
         );
+
         try {
             mailService.sendRegistrationMail(mail);
         } catch (Exception e) {
@@ -72,7 +81,7 @@ public class UserController {
     @GetMapping("/terms")
     public String termsAndCondition(Model model){
         model.addAttribute("nerUser", new User());
-        return "mail";
+        return "terms";
     }
 
     @PostMapping("/mail")
@@ -89,5 +98,11 @@ public class UserController {
             throw new RuntimeException(e);
         }
         return "redirect:/mail";
+    }
+
+    @GetMapping("/forget")
+    public String forgetPassword(Model model){
+        model.addAttribute("newUser",new User());
+        return "forget";
     }
 }

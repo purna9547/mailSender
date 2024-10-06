@@ -1,11 +1,10 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login</title>
+  <title>Forgot Password</title>
   <style>
-    /* Resetting margins and paddings */
     * {
       margin: 0;
       padding: 0;
@@ -14,7 +13,7 @@
 
     body {
       font-family: 'Poppins', sans-serif;
-      background-image: url('https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&q=80&w=1080');
+      background-image: url('https://images.unsplash.com/photo-1506784983877-45594efa4cbe?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&q=80&w=1080'); /* New Sexy Background */
       background-size: cover;
       background-position: center;
       display: flex;
@@ -22,36 +21,50 @@
       align-items: center;
       height: 100vh;
       color: white;
-      overflow: hidden;
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: inherit;
+      background-size: cover;
+      background-position: center;
+      filter: blur(7px);
+      z-index: -1;
     }
 
     .container {
-      background: rgba(0, 0, 0, 0.6); /* Darker overlay for better contrast */
+      background: rgba(0, 0, 0, 0.7); /* Dark overlay */
       border-radius: 20px;
       padding: 40px;
       max-width: 400px;
       width: 100%;
       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
-      animation: pop-in 0.5s ease-out;
+      text-align: center;
+      animation: fade-in 1s ease-out;
+      z-index: 1;
     }
 
+
     h1 {
-      text-align: center;
-      margin-bottom: 20px;
       font-size: 32px;
+      margin-bottom: 20px;
       font-weight: bold;
       color: #ffcc00; /* Bright accent color */
     }
 
-    label {
-      display: block;
-      font-size: 14px;
-      margin-bottom: 8px;
-      color: #ffcc00; /* Bright accent color */
+    p {
+      font-size: 16px;
+      margin-bottom: 20px;
+      line-height: 1.6;
     }
 
-    input[type="text"],
-    input[type="password"] {
+    input[type="email"] {
       width: 100%;
       padding: 12px;
       margin-bottom: 20px;
@@ -60,12 +73,11 @@
       border-radius: 10px;
       font-size: 16px;
       color: #fff;
-      transition: all 0.3s ease;
       outline: none;
+      transition: all 0.3s ease;
     }
 
-    input[type="text"]:focus,
-    input[type="password"]:focus {
+    input[type="email"]:focus {
       background: rgba(255, 255, 255, 0.4);
       box-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
     }
@@ -81,8 +93,6 @@
       font-weight: bold;
       cursor: pointer;
       transition: background-color 0.3s ease, transform 0.2s ease;
-      position: relative;
-      overflow: hidden;
     }
 
     button:hover {
@@ -90,24 +100,20 @@
       transform: scale(1.05);
     }
 
-    /* Add "Forgot Password" link */
-    .forgot-password {
+    a {
       display: block;
-      text-align: right;
-      margin-top: -15px;
-      margin-bottom: 20px;
-      font-size: 14px;
+      margin-top: 20px;
       color: rgba(255, 255, 255, 0.8);
       text-decoration: none;
+      font-size: 14px;
       transition: color 0.3s ease;
     }
 
-    .forgot-password:hover {
-      color: #ffcc00; /* Bright accent color */
-
+    a:hover {
+      color: #ffcc00;
     }
 
-    /* Responsive design for mobile */
+    /* Responsive Design for Mobile */
     @media (max-width: 600px) {
       .container {
         padding: 20px;
@@ -115,28 +121,27 @@
       }
 
       h1 {
-        font-size: 28px;
+        font-size: 22px;
       }
 
-      input[type="text"],
-      input[type="password"] {
+      p {
         font-size: 14px;
       }
 
       button {
-        font-size: 16px;
+        font-size: 14px;
       }
     }
 
-    /* Animation for container */
-    @keyframes pop-in {
+    /* Fade-in Animation */
+    @keyframes fade-in {
       0% {
         opacity: 0;
-        transform: scale(0.8);
+        transform: translateY(20px);
       }
       100% {
         opacity: 1;
-        transform: scale(1);
+        transform: translateY(0);
       }
     }
   </style>
@@ -144,18 +149,16 @@
 <body>
 
 <div class="container">
-  <h1>Login</h1>
-  <form th:action="@{/login}" th:object="${newUser}" method="POST">
-    <label for="username">Username:</label>
-    <input type="text" id="username" name="username" required>
+  <h1>Forgot Password?</h1>
+  <p>Enter your email address, and we’ll send you instructions to reset your password.</p>
 
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="password" required>
-    <a href="forget" class="forgot-password">Forgot Password?</a>
+  <form action="http://localhost:8080/reset-password" method="POST">
+    <input type="email" name="email" placeholder="Your email address" required>
 
-
-    <button type="submit">Log In</button>
+    <button type="submit">Send Reset Link</button>
   </form>
+
+  <a href="/login">Back to Login</a>
 </div>
 
 </body>
